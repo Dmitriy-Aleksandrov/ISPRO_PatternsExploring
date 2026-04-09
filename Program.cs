@@ -11,13 +11,19 @@ using static Explore_Patterns.prototype;
 
 namespace Explore_Patterns
 {
-    class Program   // добавить фасад и наблюдатель
+    class Program
     {
+        static void Awaiter()
+        {
+            var aaaaaaa = Console.ReadLine();
+        }
         static void Main(string[] args)
         {
             int aa = 0;
+            
             while(aa != 13)
             {
+                Console.WriteLine("1 - одиночка;\n2 - прототип;\n3 - абстрактная фабрика;\n4 - строитель;\n5 - фабричный метод;\n6 - фасад;\n7 - наблюдатель");
                 aa = int.Parse(Console.ReadLine());
                 switch (aa)
                 {
@@ -98,10 +104,7 @@ namespace Explore_Patterns
                         break;
                     case 5:
                         Console.WriteLine("=== Фабричный метод ===");
-
-                        // Выбор логистики в зависимости от условий
                         string deliveryType = "sea";
-
                         Logistics logistics;
                         switch (deliveryType)
                         {
@@ -119,19 +122,43 @@ namespace Explore_Patterns
                         }
 
                         logistics.PlanDelivery();
-
-                        // Работа с документами
                         DocumentCreator creator = new PDFCreator();
                         creator.ProcessDocument();
-
-                        // Фабрика с параметром
                         var newFactory = new TransportFactory();
                         var transport = newFactory.CreateTransport("truck");
                         transport.Deliver();
                         break;
+                    case 6:
+                        RestaurantFacade restaurant = new RestaurantFacade();
+                        restaurant.OrderDelivery("Иван", "Пицца Маргарита","ул. Ленина 10", "+7-999-123-4567",
+                                                 "ivan@mail.ru", 500);
 
+                        restaurant.OrderPickup("Мария", "Салат Цезарь", 300);
+                        break;
+                    case 7:
+                        Stock apple = new Stock("AAPL", 150.0);
+
+                        Trader trader1 = new Trader("Иван", 145.0);
+                        Trader trader2 = new Trader("Мария", 140.0);
+                        AlertSystem alert = new AlertSystem(5.0);
+                        Logger logger = new Logger();
+
+                        apple.RegisterObserver(trader1);
+                        apple.RegisterObserver(trader2);
+                        apple.RegisterObserver(alert);
+                        apple.RegisterObserver(logger);
+
+                        apple.SetPrice(148.0);
+                        apple.SetPrice(142.0);
+                        apple.SetPrice(155.0);
+
+                        apple.RemoveObserver(trader2);
+                        apple.SetPrice(152.0);
+                        break;
 
                 }
+                Awaiter();
+                Console.Clear();
             }
 
 
